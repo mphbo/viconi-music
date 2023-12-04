@@ -13,7 +13,6 @@ export default function Home() {
         className={styles.vercelLogo}
         width={450}
         height={450}
-        priority
       />
     </main>
   );

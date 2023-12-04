@@ -1,36 +1,60 @@
 "use client";
 import {
   AppBar,
+  Box,
+  Divider,
+  Drawer,
   IconButton,
-  Menu,
-  MenuItem,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   Toolbar,
 } from "@/node_modules/@mui/material/index";
-import MenuIcon from "@/node_modules/@mui/icons-material/Menu";
+import { Inbox, Mail, Menu } from "@/node_modules/@mui/icons-material/index";
 
 import React, { useState } from "react";
 
 const Navigation = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
-  const handleClose = () => {
-    setIsMenuOpen(false);
-  };
+  const list = () => (
+    <List sx={{ bgColor: "rgb(1, 1, 1 / 0.7)" }}>
+      {["Home", "Music", "Video", "Tour", "Newsletter"].map((text, index) => (
+        <>
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <Inbox /> : <Mail />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+          {text !== "Newsletter" && <Divider />}
+        </>
+      ))}
+    </List>
+  );
 
   return (
-    <div>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton onClick={() => setIsMenuOpen(true)}>
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Menu open={isMenuOpen} onClose={handleClose}>
-        <MenuItem>Profile</MenuItem>
-        <MenuItem>My Account</MenuItem>
-        <MenuItem>Logout</MenuItem>
-      </Menu>
+    <div style={{ height: 0, alignSelf: "end" }}>
+      {/* <AppBar position="static">
+        <Toolbar> */}
+      <IconButton onClick={() => setOpen(true)} style={{ margin: "20px" }}>
+        <Menu fontSize={"large"} color="black" />
+      </IconButton>
+      {/* </Toolbar>
+      </AppBar> */}
+      <Drawer
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        anchor={"top"}
+      >
+        {list()}
+      </Drawer>
     </div>
   );
 };
